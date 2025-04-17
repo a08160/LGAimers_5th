@@ -90,7 +90,7 @@
 ## 📈 성능 평가 지표
 
 - **Accuracy**, **F1 Score (macro)**
-- ** 최종 Accuracy: 0.2710321 **
+- <strong>최종 Accuracy: 0.2710321</strong>
 - ** 최종 F1 Score (macro): 0.45321**
 
 ---
