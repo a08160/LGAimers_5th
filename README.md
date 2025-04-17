@@ -1,79 +1,98 @@
-# LGAimers_5th
-LG AIMERS 5기 온라인 해커톤 | 자동차 디스플레이 제품 이상 여부 판별 프로젝트
+# LG AIMERS 5th: 자동차 디스플레이 제품 이상 여부 판별
 
-## 프로젝트 소개
-
-본 프로젝트는 LG Aimers 해커톤에서 제공된 **자동차 디스플레이 생산 라인(Sub Assembly Line)** 데이터를 기반으로, 불량 여부를 예측하는 AI 모델을 개발하기 위한 것입니다. 주어진 데이터는 자동차 디스플레이 제조 공정에서 발생할 수 있는 다양한 불량 유형(기포, Misalignment, Crack 등)을 포함하고 있으며, 이를 활용해 불량 예측 모델을 구축하고 시각화 및 최적화된 성능 평가를 수행합니다.
+> LG AIMERS 해커톤 - Sub Assembly Line 데이터 기반 불량 예측 AI 모델 개발 프로젝트
 
 ---
 
-## 프로젝트 목표
+## 📌 프로젝트 개요
 
-- Sub Assembly Line 데이터 기반 **불량 여부 예측 모델 개발**
-- **데이터 전처리, 이상치 제거, 정규화, 특성 선택** 등 통합적인 ETL 파이프라인 설계
-- **SMOTE를 활용한 불균형 데이터 처리**
-- **CatBoostClassifier + GridSearchCV** 기반 모델 튜닝 및 성능 최적화
-- **Feature Importance 시각화 및 데이터 통찰 확보**
-- 향후 Total Assembly Line 범위로 확장 가능한 모델 구조 고려
+자동차 디스플레이 생산 라인(Sub Assembly Line)에서 수집된 공정 데이터를 기반으로, **제품의 불량 여부를 예측하는 머신러닝 모델**을 개발합니다.  
+기포, Misalignment, Crack 등 다양한 불량 유형을 학습하여, 생산 품질을 사전에 예측/판별하는 것이 목표입니다.
 
 ---
 
-## 데이터 설명
+## 🎯 프로젝트 목표
 
-### 공정 개요
-
-- **Dam + Fill 공정**: 레진 도포 및 반경화
-- **합착 공정**: 글라스와의 접합
-- **탈포 공정**: 남아있는 기포 제거
-
-### 주요 Feature 목록 (일부 예시)
-
-- 레진 도포 좌표, 속도, 시간, UV 경화 시간 및 위치 등
-- Glass 이동 속도, 합착 GAP, 공정 온도 및 습도 등
-- 탈포 압력 및 시간, 챔버 온습도, 공정 소요 시간 등
-
-각 Feature는 단일 공정뿐 아니라 전체 조립 공정의 품질과도 밀접하게 연관되므로, 불량 원인 추정 및 사전 방지에도 중요한 역할을 합니다.
+- 불량 여부를 예측하는 AI 모델 설계 및 최적화
+- 데이터 전처리, 이상치 제거, 정규화 등 **통합적인 ETL 파이프라인 구축**
+- **SMOTE** 기반 불균형 데이터 보정
+- **CatBoostClassifier + GridSearchCV** 기반 모델 튜닝
+- Feature Importance 시각화를 통한 인사이트 확보
+- 향후 **Total Assembly Line 확장**을 고려한 범용적인 모델 구조 설계
 
 ---
 
-## 전처리 및 모델링 파이프라인
+## 🏭 데이터 및 공정 설명
 
-1. **데이터 클렌징 및 통합**
-   - 결측값("OK") → NaN 처리
-   - 중복 컬럼 제거 및 상관관계 기반 컬럼 축소
-   - 수치형 변환, 이상치 제거(Z-score), 정규화(StandardScaler)
+### 📋 공정 요약
 
-2. **불균형 처리**
-   - SMOTE 기법을 통해 minority class 샘플 보강
+| 공정명     | 설명                           |
+|------------|--------------------------------|
+| Dam + Fill | 레진 도포 및 반경화 단계       |
+| 합착 공정  | 글라스와 접합                  |
+| 탈포 공정  | 기포 제거 및 챔버 안정화       |
 
-3. **모델 학습 및 튜닝**
-   - `CatBoostClassifier` 기반 예측 모델 학습
-   - `GridSearchCV`를 통해 최적 하이퍼파라미터 탐색 (`depth`, `learning_rate`, `iterations`)
+### 🧾 주요 Feature 예시
 
-4. **시각화 및 해석**
-   - 결측값 히트맵(`missing_values_heatmap.png`)
-   - 상관관계 히트맵(`correlation_heatmap.png`)
-   - Feature Importance 시각화(`feature_importance_optimized.png`)
-
-5. **예측 및 제출**
-   - 테스트 데이터셋에 대해 예측 수행 후 제출 파일 생성(`submission-optimized.csv`)
+- 레진 도포 좌표, UV 경화 시간
+- 합착 GAP, Glass 이동 속도
+- 챔버 온습도, 탈포 압력/시간 등
 
 ---
 
-## 성능 지표
+## 🔧 전처리 및 모델링 파이프라인
 
-- **Accuracy** 및 **F1 Score (macro)** 기준으로 평가
-- 불량이 다중 원인에 의해 발생할 수 있으므로 **모델의 일반화 성능과 해석 가능성**이 중요함
+### 1️⃣ 데이터 전처리
+
+- `OK` 값 → `NaN` 처리
+- 단일값 컬럼 및 중복 컬럼 제거
+- 수치형 컬럼 형변환 및 정규화 (`StandardScaler`)
+- Z-score 기반 이상치 제거
+- 상관관계가 높은 컬럼(0.8 이상) 제거
+
+### 2️⃣ 불균형 처리
+
+- `SMOTE`를 활용한 minority class 샘플 보강
+
+### 3️⃣ 모델 학습
+
+- 모델: `CatBoostClassifier`
+- 튜닝: `GridSearchCV`를 사용해 `depth`, `learning_rate`, `iterations` 최적화
+
+### 4️⃣ 시각화 및 분석
+
+| 시각화 항목             | 파일명                              |
+|-------------------------|--------------------------------------|
+| 결측치 히트맵           | `missing_values_heatmap.png`         |
+| 상관관계 히트맵         | `correlation_heatmap.png`            |
+| Feature Importance       | `feature_importance_optimized.png`   |
+
+### 5️⃣ 예측 및 제출
+
+- 테스트 데이터셋 예측 후 `submission-optimized.csv` 저장
 
 ---
 
-## 향후 확장성
+## 📈 성능 평가 지표
 
-- Component 단위에서 Total Assembly Line 전체로 확대 적용 가능
-- 예측 대상 범위를 1순위 불량뿐 아니라 2, 3순위까지 확장
-- 다중 클래스 분류 혹은 멀티레이블 예측 구조로 전환 가능
+- **Accuracy**, **F1 Score (macro)**
+- 다중 원인 불량 발생 가능성을 고려하여 **모델 해석력 및 일반화 성능**이 중요
 
 ---
 
-## 프로젝트 구조
+## 🔮 향후 확장 가능성
+
+- Sub Assembly에서 Total Assembly Line 전체로 확장 가능
+- 예측 대상 확대 (1순위 불량 외 다중 불량 예측)
+- 다중 클래스 또는 멀티레이블 분류로의 구조 전환 고려
+
+---
+
+## 🧠 주요 기술 스택
+
+- Python (pandas, numpy, seaborn, matplotlib)
+- Scikit-learn
+- Imbalanced-learn (SMOTE)
+- CatBoost
+- GridSearchCV
 
