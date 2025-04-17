@@ -18,7 +18,6 @@
 - **SMOTE** 기반 불균형 데이터 보정
 - **CatBoostClassifier + GridSearchCV** 기반 모델 튜닝
 - Feature Importance 시각화를 통한 인사이트 확보
-- 향후 **Total Assembly Line 확장**을 고려한 범용적인 모델 구조 설계
 
 ---
 
@@ -73,33 +72,13 @@
     - `cv=3` 교차 검증을 통해 일반화 성능을 높이고, 편향되지 않은 평가 가능
     - `f1_macro` 지표를 통해 불균형 클래스 간의 성능 균형을 고려
 
-### 4️⃣ 시각화 및 분석
-
-| 시각화 항목             | 파일명                              |
-|-------------------------|--------------------------------------|
-| 결측치 히트맵           | `missing_values_heatmap.png`         |
-| 상관관계 히트맵         | `correlation_heatmap.png`            |
-| Feature Importance       | `feature_importance_optimized.png`   |
-
-### 5️⃣ 예측 및 제출
-
-- 테스트 데이터셋 예측 후 `submission-optimized.csv` 저장
-
 ---
 
 ## 📈 성능 평가 지표
 
 - **Accuracy**, **F1 Score (macro)**
 - <strong>최종 Accuracy: 0.2710321</strong>
-- ** 최종 F1 Score (macro): 0.45321**
-
----
-
-## 🔮 향후 확장 가능성
-
-- Sub Assembly에서 Total Assembly Line 전체로 확장 가능
-- 예측 대상 확대 (1순위 불량 외 다중 불량 예측)
-- 다중 클래스 또는 멀티레이블 분류로의 구조 전환 고려
+- <strong>최종 F1 Score (macro): 0.45321</strong>
 
 ---
 
